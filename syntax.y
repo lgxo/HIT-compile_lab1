@@ -1,5 +1,4 @@
 %{
-//#include <stdio.h>
 #include "head/tree.h"
 #include "lex.yy.c"
 
@@ -7,13 +6,14 @@ extern unsigned synError;
 
 pNode root;
 
-//#define YYERROR_VERBOSE 1
-
 void yyerror(const char* msg);
 
 %}
 
 %define parse.error verbose
+//%define parse.error detailed
+//%define parse.error custom
+
 
 /* declared types */
 %union{
