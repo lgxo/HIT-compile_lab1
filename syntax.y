@@ -7,11 +7,13 @@ extern unsigned synError;
 
 pNode root;
 
-#define YYERROR_VERBOSE 1
+//#define YYERROR_VERBOSE 1
 
 void yyerror(const char* msg);
 
 %}
+
+%define parse.error verbose
 
 /* declared types */
 %union{
