@@ -1,6 +1,7 @@
 typedef enum errora {
 	Illegal_floating,
 	Illegal_int,
+	Illegal_hex_oct,
 	Mysterious
 }ErrorA;
 
@@ -16,6 +17,9 @@ void printErrorA(int lineno, ErrorA errortype, char* text){
 	}
 	else if(errortype == Illegal_int){
 		printf("Illegal integer \"%s\"(out of range).\n", text);
+	}
+	else if(errortype == Illegal_hex_oct){
+		printf("Illegal integar \"%s\".\n", text);
 	}
 	else if(errortype == Mysterious){
 		printf("Mysterious character \"%s\".\n", text);

@@ -45,7 +45,8 @@ LC      \{
 RC      \}
 
 /*int: hex | octal | decimal*/
-INT     0[Xx]([0-9a-z]+|[0-9A-Z]+)|0[0-7]+|[1-9][0-9]*|0
+/*INT     0[Xx]([0-9a-f]+|[0-9A-F]+)|0[0-7]+|[1-9][0-9]*|0*/
+INT	0[Xx]([0-9a-z]+|[0-9A-Z]+)|0[0-9]+|[1-9][0-9]*|0
 /*float: decimal | Scientific notation*/
 FLOAT	(([1-9][0-9]*|0)?\.[0-9]+|([1-9][0-9]*|0)\.)([Ee]([\+-][0-9]+)?)?
 ID      [_a-zA-Z][_a-zA-Z0-9]{0,30}
@@ -189,29 +190,66 @@ yylval.node = newTokenNode(yylineno, TOKEN_, "", yytext);
 
 
 
-{INT}	{ 	/*if integer out of range*/
+{INT}	{ 	
+		int i;
+		if(*yytext == '0'){
+			// error hex
+			if(*(yytext+1) == 'x' || *(yytext+1) == 'X'){
+				for(i = 2; i<strlen(yytext); i++){
+					if('f'<*(yytext+i) && *(yytext+i)<='z'){
+						lexError = TRUE;
+						printErrorA(yylineno, Illegal_hex_oct, yytext);
+						break;
+					}
+					else if('F'<*(yytext+i) && *(yytext+i)<='Z'){
+						lexError = TRUE;
+						printErrorA(yylineno, Illegal_hex_oct, yytext);
+						break;
+					}
+				}
+			}
+			// error octal
+			else if(*(yytext+1) != '\0'){
+				for(i=1; i<strlen(yytext); i++){
+					if(*(yytext+i) > '7'){
+						lexError = TRUE;
+						printErrorA(yylineno, Illegal_hex_oct, yytext);
+						break;
+					}
+				}
+			}
+		}
+		
+			/*if integer out of range*/
 		long val = strtol(yytext, NULL, 0);
 		if(val > 0xFFFFFFFF){
 			lexError = TRUE;
 			printErrorA(yylineno, Illegal_int, yytext);
 		}
-		else{
+		/*else{
 			yylval.node = newTokenNode(yylineno, TOKEN_INT, "INT", yytext);
 			return INT;
-		}
+		}*/
+		yylval.node = newTokenNode(yylineno, TOKEN_INT, "INT", yytext);
+		return INT;
+	
 	}
 {FLOAT}	{ 	/*incorrect format*/
 		char* q = yytext + strlen(yytext) - 1;
 		if(*yytext == '.' || *q == '.' || *q == 'e' || *q == 'E'){
 			lexError = TRUE;
 			printErrorA(yylineno, Illegal_floating, yytext);
+			//yylval.node = newTokenNode(yylineno, TOKEN_FLOAT, "FLOAT", yytext);
+			//return FLOAT;
 		}
 		/*浮点数的正确表示范围实现*/
 		/*correct*/
-		else{
+		/*else{
 			yylval.node = newTokenNode(yylineno, TOKEN_FLOAT, "FLOAT", yytext);
 			return FLOAT;
-		}
+		}*/
+		yylval.node = newTokenNode(yylineno, TOKEN_FLOAT, "FLOAT", yytext);
+		return FLOAT;
 	}
 {ID}	{
 		yylval.node = newTokenNode(yylineno, TOKEN_ID, "ID", yytext);
