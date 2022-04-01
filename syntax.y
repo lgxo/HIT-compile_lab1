@@ -98,7 +98,6 @@ ExtDef:		Specifier ExtDecList SEMI{
 				}
 	|	error SEMI	{
 					synError = TRUE;
-					//printf("1");
 				}
 	;
 
@@ -157,7 +156,6 @@ VarDec:		ID		{
 				}
 	|	error RB	{
 					synError = TRUE;
-					//printf("2");
 				}
 	;
 
@@ -169,7 +167,6 @@ FunDec:		ID LP VarList RP{
 				}
 	|	error RP	{
 					synError = TRUE;
-					//printf("3");
 				}
 	;
 
@@ -196,7 +193,6 @@ CompSt:		LC DefList StmtList RC{
 				}
 	|	error RC	{
 					synError = TRUE;
-					//printf("4");
 				}
 	;
 
@@ -228,7 +224,6 @@ Stmt:		Exp SEMI	{
 				}
 	|	error SEMI	{
 					synError = TRUE;
-					//printf("5");
 				}
 	;
 
