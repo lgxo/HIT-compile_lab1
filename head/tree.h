@@ -124,8 +124,11 @@ static inline void printTree(pNode pNode, int height){
 	if(pNode->type == NOT_A_TOKEN){
 		printf(" (%d)", pNode->lineno);
 	}
-	else if(pNode->type == TOKEN_TYPE || pNode->type == TOKEN_ID || pNode->type == TOKEN_INT){
+	else if(pNode->type == TOKEN_TYPE || pNode->type == TOKEN_ID){
 		printf(": %s", pNode->val);
+	}
+	else if(pNode->type == TOKEN_INT){
+		printf(": %ld", strtol(pNode->val, NULL, 0));
 	}
 	else if(pNode->type == TOKEN_FLOAT){
 		printf(": %f", atof(pNode->val));

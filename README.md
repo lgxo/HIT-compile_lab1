@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 lexical.l	->	flex源文件
 syntax.y	->	bison源文件
 parser		->	可执行文件，即词法分析与语法分析程序
@@ -12,3 +13,6 @@ test/		->	实验指导书中的测试用例：
 				6.最后的数字表示实验指导书中的顺序
 
 其他		->	中间文件
+=======
+compile lab1 of hit. lexical and syntax analyse.
+>>>>>>> fe5ef5f3216d0bbb462d1769214b7ee67ae48aa6
